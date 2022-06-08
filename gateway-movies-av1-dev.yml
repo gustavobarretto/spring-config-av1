@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: catalogRoute
+          uri: http://localhots:8082
+          predicates:
+          - Path=/catalog/**
+        - id: moviesRoute
+          uri: http://localhost:8081
+          predicates:
+          - Path=/movies/**
