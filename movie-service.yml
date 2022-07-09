@@ -1,0 +1,45 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /movies/
+
+spring:
+  eureka:
+    client:
+      register-with-eureka: true
+      fetch-registry: true
+      serviceUrl:
+        defaultZone: http://eureka:8761/eureka}
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db_sql:3306/movies?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    user: root
+    password: root1234
+  jpa:
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    format-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  rabbitmq:
+    username: guest
+    password: guest
+    host: rabbitmq3
+    port: 5672
+
+queue:
+  movie:
+    name: MovieQueue
+
+mensagem: hello world
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

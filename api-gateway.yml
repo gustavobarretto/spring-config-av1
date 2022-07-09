@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  eureka:
+    client:
+      register-with-eureka: true
+      fetch-registry: true
+      serviceUrl:
+        defaultZone: http://eurekaserver:8761/eureka
+ cloud:
+   gateway:
+     discovery:
+       locator:
+         enabled: true
+         lower-case-service-id: true
+     routes:
+       - id: movie-service
+         uri: lb://movieservice
+         predicates:
+           - Path=/movies/**
+         filters:
+           - name: CircuitBreaker
+             args:
+               name: moviesService
+               fallbackUri: forward:/fallback/movies
+       - id: catalog-service
+         uri: lb://catalogservice
+         predicates:
+           - Path=/catalog/**
+         filters:
+           - name: CircuitBreaker
+             args:
+               name: catalogService
+               fallbackUri: forward:/fallback/catalog
+       - id: serie-service
+         uri: lb://serieservice
+         predicates:
+           - Path=/serie/**
+         filters:
+           - name: CircuitBreaker
+             args:
+               name: serieService
+               fallbackUri: forward:/fallback/serie#
+
+
+#queue:
+#  movie:
+#    name: MovieQueue
+
+
